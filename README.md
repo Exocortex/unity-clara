@@ -1,7 +1,7 @@
 # Clara-Unity (The Clara.io library for Unity application)
  
 ## Insatllation
- Drag and drop the **_clara.unity_**, **_lib_** folders and file **_ClaraIO.cs_** into the **_Assets_** folder of your Unity project.
+ Drag and drop the **_clara**, **_lib_** folders and file **_ClaraIO.cs_** into the **_Assets_** folder of your Unity project.
  For zip file decompression, we recommend to use **_Unity.IO.Compression_** which can be install through unity store.
  
  
