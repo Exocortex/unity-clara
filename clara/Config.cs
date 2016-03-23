@@ -86,6 +86,7 @@ namespace dotnet_clara.lib
             }
             catch (Exception e)
             {
+                Console.Write(e);
                 Console.Write("Invalid Configuration File:" + configFilePath);
                 return null;
             }

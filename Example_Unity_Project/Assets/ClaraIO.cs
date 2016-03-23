@@ -13,7 +13,6 @@ using dotnet_clara.lib.resources;
 using RestSharp;//RestSharp Unity "https://github.com/Cratesmith/RestSharp-for-unity3d"
 using Newtonsoft;
 using Ionic.Zip;// dotnetZiplib-Unity "https://github.com/r2d2rigo/dotnetzip-for-unity"
-using ICSharpCode.SharpZipLib.GZip;
 using Unity.IO.Compression;// System.IO.Compression for Unity "https://www.assetstore.unity3d.com/en/#!/content/31902"
 
 public class ClaraIO : MonoBehaviour {
@@ -69,8 +68,8 @@ public class ClaraIO : MonoBehaviour {
             //*********export the scene from clara, using "obj" format**************
             var bytes = clara.scenes.Export(sceneUuid, "obj", 1);// get the export data
             //**********************************************************************
-            byte[] decompressed = Decompress(bytes);//decompress gzip file to byte array
-            Stream stream = new MemoryStream(decompressed);//convert byte array to stream
+            //byte[] decompressed = Decompress(bytes);//decompress gzip file to byte array
+            Stream stream = new MemoryStream(bytes);//convert byte array to stream
             using (ZipFile zip = ZipFile.Read(stream)) //DotnetZip read stream
             {
                 foreach (ZipEntry entry in zip)

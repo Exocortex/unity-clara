@@ -8,6 +8,7 @@ using System.Reflection;
 using RestSharp;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Unity.IO.Compression;// System.IO.Compression for Unity "https://www.assetstore.unity3d.com/en/#!/content/31902"
 
 namespace dotnet_clara.lib.resources
 {
@@ -86,6 +87,7 @@ namespace dotnet_clara.lib.resources
                 request.AddParameter(key, value);
             }
             IRestResponse resp = method.Request("post", request, true);
+
             return resp.RawBytes;
         }
         //Return the thumbnail of the scene
@@ -104,9 +106,14 @@ namespace dotnet_clara.lib.resources
             string requestUrl = sceneId + "/export/" + extension;
             RestRequest request = new RestRequest();
             request.Resource = requestUrl;
+            request.AddHeader("Accept-Encoding", "gzip,deflate");
             request.AddParameter("cache", useCache);
             IRestResponse resp = method.Request("post", request, true);
-
+            if (resp.ContentEncoding == "gzip")
+            {
+                byte[] decompressed = Decompress(resp.RawBytes);
+                return decompressed;
+            }
             return resp.RawBytes;
         }
 
@@ -219,6 +226,33 @@ namespace dotnet_clara.lib.resources
 
             IRestResponse response = method.Request("get", request);
             return response;
+        }
+
+        //For unzip the downloaded zip file
+        static byte[] Decompress(byte[] gzip)
+        {
+            // Create a GZIP stream with decompression mode.
+            // ... Then create a buffer and write into while reading from the GZIP stream.
+            // using the Unity.IO.Compression instead of System.IO.Compression which is unsupported by Mono
+            using (GZipStream stream = new GZipStream(new MemoryStream(gzip), CompressionMode.Decompress))
+            {
+                const int size = 4096;
+                byte[] buffer = new byte[size];
+                using (MemoryStream memory = new MemoryStream())
+                {
+                    int count = 0;
+                    do
+                    {
+                        count = stream.Read(buffer, 0, size);
+                        if (count > 0)
+                        {
+                            memory.Write(buffer, 0, count);
+                        }
+                    }
+                    while (count > 0);
+                    return memory.ToArray();
+                }
+            }
         }
 
     }
