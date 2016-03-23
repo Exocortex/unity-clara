@@ -10,7 +10,7 @@
  ```Javascript
  Clara clara = new Clara(username, apiToken, host);
 ```
-You can get the idea from **_ClaraIO.cs_**, and we also provide how export and get the thumbnail from clara in the code. 
+You can get the idea from **_ClaraIO.cs_**, and we also provide how to export and get the thumbnail from clara in the code. 
  
 ## Available Resources and Methods
 * scenes:library --- List public scenes
