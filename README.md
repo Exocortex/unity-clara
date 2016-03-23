@@ -10,6 +10,7 @@
  ```Javascript
  Clara clara = new Clara(username, apiToken, host);
 ```
+You can get the idea from **_ClaraIO.cs_**. 
  
 ## Available Resources and Methods
 * scenes:library --- List public scenes
