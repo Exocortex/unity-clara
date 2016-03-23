@@ -29,8 +29,6 @@ You can get the idea from **_ClaraIO.cs_**, and we also provide how to export an
 * user:update --- Update user profile
 * user:listScenes --- List user's scenes
 * user:listJobs --- List user's jobs
-* set:[option] --- Set a configuration value to $HOME/.clara.json
-* get:[option] --- Return the current configuration for [option]
  
 ## Example
  We provide a simple unity project to show how to use the lib. 
