@@ -1,7 +1,7 @@
 # Clara-Unity (The Clara.io library for Unity application)
  
 ## Insatllation
- Drag and drop the **_clara.unity_**, **_lib_** folders and file **_ClaraIO.cs_** into the **_Assets_** folder of your Unity project.
+ Drag and drop the **_clara**, **_lib_** folders and file **_ClaraIO.cs_** into the **_Assets_** folder of your Unity project.
  For zip file decompression, we recommend to use **_Unity.IO.Compression_** which can be install through unity store.
  
  
@@ -10,7 +10,7 @@
  ```Javascript
  Clara clara = new Clara(username, apiToken, host);
 ```
-You can get the idea from **_ClaraIO.cs_**. 
+You can get the idea from **_ClaraIO.cs_**, and we also provide how to export and get the thumbnail from clara in the code. 
  
 ## Available Resources and Methods
 * scenes:library --- List public scenes
@@ -29,8 +29,6 @@ You can get the idea from **_ClaraIO.cs_**.
 * user:update --- Update user profile
 * user:listScenes --- List user's scenes
 * user:listJobs --- List user's jobs
-* set:[option] --- Set a configuration value to $HOME/.clara.json
-* get:[option] --- Return the current configuration for [option]
  
 ## Example
  We provide a simple unity project to show how to use the lib. 
