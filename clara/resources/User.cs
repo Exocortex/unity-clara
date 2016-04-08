@@ -101,7 +101,27 @@ namespace dotnet_clara.lib.resources
 
             return response;
         }
+        //List your scenes of a collection
+        public string[] ListScenesOfCollection(string username, string collectionUUID)
+        {
+            string requestUrl = username + "/scenes?collection=" + collectionUUID;
 
+            RestRequest request = new RestRequest();
+            request.Resource = requestUrl;
+
+            IRestResponse response = method.Request("get", request);
+            SceneList scenes = JsonConvert.DeserializeObject<SceneList>(response.Content);
+
+            List<string> sceneUuidList = new List<string>();
+            for (int i = 0; i < scenes.models.Length; i++)
+            {
+                sceneUuidList.Add(scenes.models[i].id);
+            }
+
+            string[] sceneUuids = sceneUuidList.ToArray();
+
+            return sceneUuids;
+        }
         //List your jobs
         public IRestResponse ListJobs(string username, string query)
         {
