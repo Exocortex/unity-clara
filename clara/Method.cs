@@ -30,7 +30,17 @@ namespace dotnet_clara.lib
             this.client = new RestClient();         
             this.client.Authenticator = new RestSharp.HttpBasicAuthenticator(configInfo.username, configInfo.apiToken);
         }
-
+        public class Job
+        {
+            public string id { get; set; }
+            public string owner { get; set; }
+            public string type { get; set; }
+            public string name { get; set; }
+            public string status { get; set; }
+            public string scene { get; set; }
+            public string server { get; set; }
+            public string service { get; set; }
+        }
         public class NewtonsoftJsonSerializer : RestSharp.Serializers.ISerializer, RestSharp.Deserializers.IDeserializer
         {
             private Newtonsoft.Json.JsonSerializer jsonSerializer;
@@ -95,15 +105,32 @@ namespace dotnet_clara.lib
                     {
                         RestRequest newRequest = new RestRequest(RestSharp.Method.GET);
 
+                        int index = location.IndexOf("result");
+                        if (index > 0)
+                            location = location.Substring(0, index);
                         this.client.BaseUrl = location;
                         IRestResponse outputResponse = this.client.Execute(newRequest);
+                        Job job = JsonConvert.DeserializeObject<Job>(outputResponse.Content);
 
-                        while (outputResponse.ResponseUri.ToString() == this.client.BaseUrl)
+                        while (job.status == "pending" || job.status == "working")
                         {
                             Thread.Sleep(2000);
                             outputResponse = this.client.Execute(newRequest);
-                        }                      
-                        return outputResponse;
+                            job = JsonConvert.DeserializeObject<Job>(outputResponse.Content);
+                        }
+                        if (job.status == "ok")
+                        {
+                            location += "result";
+                            this.client.BaseUrl = location;
+                            return this.client.Execute(newRequest);
+                        }
+                        else
+                        {
+                            IRestResponse failedResponse = new RestResponse();
+                            failedResponse.Content = "failed";
+                            return failedResponse;
+                        }
+                            
                     }
                     break;
                 case "get":

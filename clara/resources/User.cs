@@ -39,6 +39,20 @@ namespace dotnet_clara.lib.resources
             public string country { get; set; }
             public string website { get; set; }
         }
+        public class Scene
+        {
+            public string id { get; set; }
+            public string name { get; set; }
+            public string owner { get; set; }
+        }
+        public class SceneList
+        {
+            public int page { get; set; }
+            public int perPage { get; set; }
+            public int total { get; set; }
+            public Scene[] models { get; set; } 
+        }
+
         //Get user profile
         public IRestResponse Get(string username)
         {
@@ -122,6 +136,7 @@ namespace dotnet_clara.lib.resources
 
             return sceneUuids;
         }
+
         //List your jobs
         public IRestResponse ListJobs(string username, string query)
         {
